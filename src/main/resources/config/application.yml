@@ -1,0 +1,67 @@
+server:
+  forward-headers-strategy:
+springdoc:
+  swagger-ui:
+    path : swagger.html
+spring:
+  application:
+    name: auth-service
+  output:
+    ansi:
+      enabled: ALWAYS
+  security:
+    user:
+      name: admin
+      password : admin
+  datasource:
+    url: jdbc:postgresql://localhost:5432/shop_cart_app_db
+    username: shop_manager
+    password: shop_manager_pass
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    database: POSTGRESQL
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: true
+    hibernate:
+      ddl-auto: validate
+  flyway:
+    locations:
+      - classpath:db/migration
+      - classpath:db/testdata
+    baseline-on-migrate: true
+#Аутентификация
+authentication:
+  token:
+    issuer: shopping-cart-auth
+    type: Bearer
+    # 1 hour
+    expirationSec: 3600
+    key : secret-key
+
+logging:
+  pattern:
+    console: "%clr(%d{HH:mm:ss.SSS}){blue} %clr(---){faint} %clr([%15.15t]){yellow} %clr(:){red} %clr(%m){faint}%n"
+
+orders:
+  expiration :
+    # 10 minute
+    time : 600
+---
+spring:
+  config:
+    activate:
+      on-profile: test
+  datasource:
+    url : jdbc:h2:mem:memory
+    driverClassName : org.h2.Driver
+    username: sa
+    password:
+  jpa:
+    database-platform : org.hibernate.dialect.H2Dialect
+    show-sql: true
+    hibernate:
+      ddl-auto: validate
+  flyway:
+    locations:
+      - classpath:db/h2/migration
+      - classpath:db/h2/testdata
