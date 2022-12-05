@@ -13,7 +13,7 @@ CREATE TABLE if not exists Users
     email        varchar(32) not null,
     password     varchar(64) not null,
     login        varchar(32) not null,
-    phone_number bigint      not null,
+    phone_number varchar(32) not null,
     role varchar(16)
 );
 CREATE TABLE if not exists Orders
